@@ -1,0 +1,240 @@
+create TABLE PhongBan(
+	Ma_PhongBan_id  nvarchar(50) PRIMARY KEY not null,
+	Ten_PhongBan nvarchar(50) null,
+	SDT_PhongBan nvarchar(50) null,
+	Diachi nvarchar(50) null
+);
+
+create TABLE Bacluong(
+	BacLuong_id  nvarchar(50) PRIMARY KEY not null,
+	Luongcb nvarchar(50) null,
+	HeSo_Luong nvarchar(50) null
+);
+
+create TABLE Congviec(
+	MaCV_id nvarchar(50)  PRIMARY KEY not null, 
+	TenCV nvarchar(50) null
+);
+
+create TABLE NhanVien(
+	MaNV_id nvarchar(50) PRIMARY KEY not null,
+	Ho_ten nvarchar(50) null,
+	Dan_toc nvarchar(50) null,
+	Gioi_Tinh nvarchar(50) null,
+	Que_Quan nvarchar(50) null,
+	Ngay_Sinh nvarchar(50) null,
+	SDT nvarchar(50) null,
+	MaCV_fk nvarchar(50),
+	Ma_PhongBan_fk nvarchar(50),
+	BacLuong_fk nvarchar(50),
+	CONSTRAINT MaCV_fk FOREIGN KEY (MaCV_fk) REFERENCES Congviec(MaCV_id)
+	ON DELETE  SET NULL ON UPDATE  SET NULL,
+
+	CONSTRAINT Ma_PhongBan_fk FOREIGN KEY (Ma_PhongBan_fk) REFERENCES PhongBan(Ma_PhongBan_id)
+	ON DELETE  SET NULL ON UPDATE SET NULL,
+
+	CONSTRAINT BacLuong_fk FOREIGN KEY (BacLuong_fk) REFERENCES Bacluong(BacLuong_id)
+	ON DELETE  SET NULL ON UPDATE  SET NULL
+);
+
+create TABLE Hopdong(
+	MaHD_id nvarchar(50) PRIMARY KEY not null,
+	LoaiHD nvarchar(50) null,
+	MaNV_fk nvarchar(50),
+	CONSTRAINT MaNV_fk FOREIGN KEY (MaNV_fk) REFERENCES NhanVien(MaNV_id)
+	ON DELETE  SET NULL ON UPDATE  SET NULL
+);
+
+
+-----------------------------------------------------------------------------------
+
+INSERT INTO [dbo].[PhongBan]
+           ([Ma_PhongBan_id]
+           ,[Ten_PhongBan]
+           ,[SDT_PhongBan]
+           ,[Diachi])
+     VALUES
+           (N'PB1',N'Phòng Quản Trị',N'0968528230',N'Tầng 10'),
+		   (N'PB2',N'Phòng Kinh Doanh',N'0968528231',N'Tầng9'),
+		   (N'PB3',N'Phòng Tài Chính',N'0968528232',N'Tầng 8'),
+		   (N'PB4',N'Phòng Maketing',N'0968528233',N'Tầng 7'),
+		   (N'PB5',N'Phòng Nhân Sự',N'0968528234',N'Tầng 5')
+
+
+-----------------------------------------------------------------------------------
+
+INSERT INTO [dbo].[Bacluong]
+           ([BacLuong_id]
+           ,[Luongcb]
+           ,[HeSo_Luong])
+     VALUES
+           (N'LB1',N'1.500.000',N'6'),
+		   (N'LB2',N'1.500.000',N'8'),
+		   (N'LB3',N'1.500.000',N'10'),
+		   (N'LB4',N'1.500.000',N'12'),
+		   (N'LB5',N'1.500.000',N'15')
+
+
+-----------------------------------------------------------------------------------
+
+INSERT INTO [dbo].[Congviec]
+           ([MaCV_id]
+           ,[TenCV])
+     VALUES
+           ('CV1',N'Giám Đốc'),
+		   ('CV2',N'Phó Giám Đốc'),
+		   ('CV3',N'Trưởng Phòng kinh doanh'),
+		   ('CV4',N'Kế Toán Trưởng'),
+		   ('CV5',N'Bảo Vệ'),
+		   ('CV6',N'Thư ký'),
+		   ('CV7',N'Nhân viên'),
+		   ('CV8',N'Kỹ Thuật Viên')
+
+-----------------------------------------------------------------------------------
+
+INSERT INTO [dbo].[NhanVien]
+           ([MaNV_id]
+           ,[Ho_ten]
+           ,[Dan_toc]
+           ,[Gioi_Tinh]
+           ,[Que_Quan]
+           ,[Ngay_Sinh]
+           ,[SDT]
+           ,[MaCV_fk]
+           ,[Ma_PhongBan_fk]
+           ,[BacLuong_fk])
+     VALUES
+           ('NV0001',N'Trịnh Xuân Chinh',N'Kinh',N'Nam',N'Ninh Bình',N'26/03/2001',N'0968888888',N'CV1',N'PB1',N'LB5'),
+		   ('NV0002',N'Trịnh Xuân Trường',N'Kinh',N'Nam',N'Ninh Bình',N'12/08/1997',N'0968123456',N'CV2',N'PB1',N'LB4'),
+		   ('NV0003',N'Lê Thị Thu Hương',N'Kinh',N'nữ',N'Hà Nội',N'21/05/1999',N'0968812345',N'CV6',N'PB2',N'LB2'),
+		   ('NV0004',N'Phạm Kim Trọng',N'Kinh',N'Nam',N'Nam Định',N'11/09/2000',N'0968886768',N'CV7',N'PB5',N'LB3'),
+		   ('NV0005',N'Trần Thị Dung',N'Kinh',N'nữ',N'Hồ Chí Minh',N'03/02/1998',N'09612356874',N'CV7',N'PB5',N'LB3'),
+		   ('NV0006',N'Phạm Tấn Tài',N'Kinh',N'Nam',N'Hà Nam',N'11/02/1999',N'09612353474',N'CV7',N'PB5',N'LB3'),
+		   ('NV0007',N'Trần Thị Kiều Linh',N'Kinh',N'nữ',N'Hồ Chí Minh',N'03/08/1998',N'09612356894',N'CV7',N'PB5',N'LB3')
+
+-----------------------------------------------------------------------------------
+
+INSERT INTO [dbo].[Hopdong]
+           ([MaHD_id]
+           ,[LoaiHD]
+           ,[MaNV_fk])
+     VALUES
+           ('HD1',N'Hợp đồng không thời hạn','NV0001'),
+		   ('HD2',N'Hợp đồng có thời hạn','NV0002'),
+		   ('HD3',N'Hợp đồng có thời hạn','NV0003'),
+		   ('HD4',N'Hợp đồng có thời hạn','NV0004'),
+		   ('HD5',N'Hợp đồng có thời hạn','NV0005'),
+		   ('HD6',N'Hợp đồng có thời hạn','NV0006'),
+		   ('HD7',N'Hợp đồng có thời hạn','NV0007')
+
+-----------------------------------------------------------------------------------
+
+CREATE PROCEDURE Nhap_du_lieu_nhan_vien
+           (@MaNV_id nvarchar(50)
+           ,@Ho_ten nvarchar(50)
+           ,@Dan_toc nvarchar(50)
+           ,@Gioi_Tinh nvarchar(50)
+           ,@Que_Quan nvarchar(50)
+           ,@Ngay_Sinh nvarchar(50)
+           ,@SDT nvarchar(50)
+           ,@MaCV_fk nvarchar(50)
+           ,@Ma_PhongBan_fk nvarchar(50)
+           ,@BacLuong_fk nvarchar(50))
+AS
+BEGIN
+		INSERT INTO [dbo].[NhanVien]
+           ([MaNV_id]
+           ,[Ho_ten]
+           ,[Dan_toc]
+           ,[Gioi_Tinh]
+           ,[Que_Quan]
+           ,[Ngay_Sinh]
+           ,[SDT]
+           ,[MaCV_fk]
+           ,[Ma_PhongBan_fk]
+           ,[BacLuong_fk])
+     VALUES
+           (@MaNV_id
+           ,@Ho_ten
+           ,@Dan_toc
+           ,@Gioi_Tinh
+           ,@Que_Quan-
+           ,@Ngay_Sinh
+           ,@SDT
+           ,@MaCV_fk
+           ,@Ma_PhongBan_fk
+           ,@BacLuong_fk)
+END
+GO
+
+-----------------------------------------------------------------------------------
+
+CREATE PROCEDURE Hien_thi_du_lieu_nhan_vien
+	@MaNV_id nvarchar(50)
+AS
+BEGIN
+		SELECT [MaNV_id]
+			  ,[Ho_ten]
+			  ,[Dan_toc]
+			  ,[Gioi_Tinh]
+			  ,[Que_Quan]
+			  ,[Ngay_Sinh]
+			  ,[SDT]
+			  ,[TenCV]
+			  ,[Ten_PhongBan]
+			  ,[Luongcb]
+			  ,[HeSo_Luong]
+		FROM			dbo.NhanVien INNER JOIN
+						dbo.PhongBan ON dbo.NhanVien.Ma_PhongBan_fk = dbo.PhongBan.Ma_PhongBan_id INNER JOIN
+						dbo.Hopdong ON dbo.NhanVien.MaNV_id = dbo.Hopdong.MaNV_fk INNER JOIN
+						dbo.Congviec ON dbo.NhanVien.MaCV_fk = dbo.Congviec.MaCV_id INNER JOIN
+						dbo.Bacluong ON dbo.NhanVien.BacLuong_fk = dbo.Bacluong.BacLuong_id
+		WHERE	[MaNV_id] = @MaNV_id
+			
+END
+GO
+
+-----------------------------------------------------------------------------------
+
+UPDATE [dbo].[NhanVien]
+   SET 
+      [Ma_PhongBan_id] = 'PB4'
+      ,[BacLuong_id] = 'LB2'
+ WHERE [MaNV_id] = 'NV0004'
+
+-----------------------------------------------------------------------------------
+
+DELETE FROM [dbo].[NhanVien]
+      WHERE [MaNV_id] = 'NV0005'
+
+-----------------------------------------------------------------------------------
+
+SELECT [MaNV_id]
+      ,[Ho_ten]
+      ,[Dan_toc]
+      ,[Gioi_Tinh]
+      ,[Que_Quan]
+      ,[Ngay_Sinh]
+      ,[SDT]
+      ,[TenCV]
+      ,[Ten_PhongBan]
+      ,[Luongcb]
+	  ,[HeSo_Luong]
+FROM      dbo.NhanVien INNER JOIN
+                dbo.PhongBan ON dbo.NhanVien.Ma_PhongBan_fk = dbo.PhongBan.Ma_PhongBan_id INNER JOIN
+                dbo.Hopdong ON dbo.NhanVien.MaNV_id = dbo.Hopdong.MaNV_fk INNER JOIN
+                dbo.Congviec ON dbo.NhanVien.MaCV_fk = dbo.Congviec.MaCV_id INNER JOIN
+                dbo.Bacluong ON dbo.NhanVien.BacLuong_fk = dbo.Bacluong.BacLuong_id
+
+GO
+
+
+-----------------------------------------------------------------------------------
+
+exec Hien_thi_du_lieu_nhan_vien @MaNV_id = "NV0001"
+
+exec [dbo].[Nhap_du_lieu_nhan_vien] 'NV0009',N'Võ Đức Trọng',N'Kinh',N'nam',N'Hà Nội',N'03/08/1995',N'09614556894',N'CV7',N'PB5',N'LB3'
+
+-----------------------------------------------------------------------------------
+
+Create login yourloginname with password='yourpassword'
